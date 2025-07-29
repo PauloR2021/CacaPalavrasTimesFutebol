@@ -119,6 +119,36 @@ public class JogoView extends JFrame {
             dicas.revalidate();
             dicas.repaint();
         }
+    }
 
+    //Metodo para realizar as seleções das letras
+    private void  processarSelecao(){
+        //criando as Variaveis de início e fim da tabela
+        int linhaIni = tabela.rowAtPoint(pontoInicial);
+        int colIni = tabela.columnAtPoint(pontoInicial);
+        int linhaFim = tabela.rowAtPoint(pontoFinal);
+        int colFim = tabela.columnAtPoint(pontoFinal);
+
+        if(linhaIni == linhaFim){
+            //Horizontal
+            int inicio = Math.min(colIni, colFim);
+            int fim = Math.max(colIni, colFim);
+            StringBuilder sb = new StringBuilder();
+            for(int i = inicio; i <= fim; i++){
+                sb.append(gradeDePalavaras.getGrade()[linhaIni][i]);
+            }
+            verificarPalavras(sb.toString(), linhaIni, inicio, "HORIZONTAL", fim - inicio + 1 );
+
+        }else if(colIni == colFim){
+            //Vertical
+
+            int inicio = Math.min(linhaIni, linhaFim);
+            int fim = Math.max(linhaIni, linhaFim);
+            StringBuilder sb = new StringBuilder();
+            for (int i = inicio; i <= fim; i++) {
+                sb.append(gradePalavras.getGrade()[i][colIni]);
+            }
+            verificarPalavra(sb.toString(), inicio, colIni, "VERTICAL", fim - inicio + 1);
+        }
     }
 }
