@@ -122,7 +122,7 @@ public class JogoView extends JFrame {
     }
 
     //Metodo para realizar as seleções das letras
-    private void  processarSelecao(){
+    private void processarSelecao(){
         //criando as Variaveis de início e fim da tabela
         int linhaIni = tabela.rowAtPoint(pontoInicial);
         int colIni = tabela.columnAtPoint(pontoInicial);
@@ -137,7 +137,7 @@ public class JogoView extends JFrame {
             for(int i = inicio; i <= fim; i++){
                 sb.append(gradeDePalavaras.getGrade()[linhaIni][i]);
             }
-            verificarPalavras(sb.toString(), linhaIni, inicio, "HORIZONTAL", fim - inicio + 1 );
+            verificarPalavra(sb.toString(), linhaIni, inicio, "HORIZONTAL", fim - inicio + 1 );
 
         }else if(colIni == colFim){
             //Vertical
@@ -149,6 +149,28 @@ public class JogoView extends JFrame {
                 sb.append(gradePalavras.getGrade()[i][colIni]);
             }
             verificarPalavra(sb.toString(), inicio, colIni, "VERTICAL", fim - inicio + 1);
+        }
+    }
+
+
+    //Metodo para Verifificar se a palavra selecionada é a correta
+    private void verificarPalavra(){
+        if (gradePalavras.getPalavrasRestantes().contains(palavraSelecionada)) {
+            for (int i = 0; i < tamanho; i++) {
+                if (direcao.equals("HORIZONTAL")) {
+                    renderers[linha][coluna + i].setBackground(Color.GREEN);
+                } else {
+                    renderers[linha + i][coluna].setBackground(Color.GREEN);
+                }
+            }
+            gradePalavras.removerPalavra(palavraSelecionada);
+            atualizarDicas();
+            tabela.repaint();
+            JOptionPane.showMessageDialog(this, "Palavra encontrada: " + palavraSelecionada);
+
+            if (gradePalavras.todasEncontradas()) {
+                JOptionPane.showMessageDialog(this, "Parabéns! Você encontrou todas as palavras!");
+            }
         }
     }
 }
