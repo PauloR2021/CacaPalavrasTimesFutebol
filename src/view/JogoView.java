@@ -89,7 +89,36 @@ public class JogoView extends JFrame {
                 processarSelecao();
             }
         });
+    }
 
+    //Metodo para atualizar as dicas que foram acertadas
+    private void atualizarDicas(){
+
+        StringBuilder sb = new StringBuilder("<html>Palavras:"); // Cria um String Builder para chamar metodos HTML
+
+        for(String palavra  : gradeDePalavaras.getPalavras()){ //Faz um for dentro do Get de Palavras
+            if(gradeDePalavaras.getPalavrasRestantes().contains(palavras)){ //Verifica se A  palavra do For existe dentro do Get de Palavras do metodo
+                sb.append(palavra).append(", "); //Se Existir ele adiciona
+            }else { //Se não existir ele risca a palavra para mostrar que foi achada
+                sb.append("<span style='text-decoration: line-through; font color: red;'>")
+                        .append(palavra)
+                        .append("</span>, ");
+            }
+        }
+
+        if(sb.lastIndexOf(", ") != -1){
+            sb.setLength(sb.length() - 2);
+        }
+        sb.append("</html>");
+
+        if(dicas == null){
+            dicas = new JLabel(sb.toString());
+            dicas.setFont(new Font("Arial", Font.PLAIN, 16));
+        }else{
+            dicas.setText(sb.toString());
+            dicas.revalidate();
+            dicas.repaint();
+        }
 
     }
 }
